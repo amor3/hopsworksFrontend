@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('hopsWorksApp')
-  .controller('RegCtrl', ['RegisterService', function (RegisterService) {
+  .controller('RegCtrl', ['RegisterService', '$location', function (RegisterService, $location) {
 
     var self = this;
 
@@ -17,4 +17,12 @@ angular.module('hopsWorksApp')
       ToS: ''
     };
 
+    self.register = function () {
+      RegisterService.register(self.newUser).then(function (success) {
+        self.message = success.data.msg;
+        $location.path('/login.html');
+      }, function (error) {
+        self.errorMessage = error.data.msg;
+      })
+    }
   }]);
